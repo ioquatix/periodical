@@ -23,8 +23,12 @@ module Periodical
 		VALID_UNITS = [:days, :weeks, :months, :years]
 		
 		# Accepts strings in the format of "2 weeks" or "weeks"
-		def self.parse(string)
-			parts = string.split(/\s+/, 2)
+		def self.parse(value)
+			if Array === value
+				parts = value
+			else
+				parts = value.to_s.split(/\s+/, 2)
+			end
 			
 			if parts.size == 1
 				if parts[0].to_i == 0
