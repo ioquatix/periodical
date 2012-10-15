@@ -4,6 +4,7 @@ Periodical
 * Author: Samuel G. D. Williams (<http://www.oriontransfer.co.nz>)
 * Copyright (C) 2012 Samuel G. D. Williams.
 * Released under the MIT license.
+* [![Build Status](https://secure.travis-ci.org/ioquatix/periodical.png)](http://travis-ci.org/ioquatix/periodical)
 
 Periodical is a simple framework for working with durations and periods. A duration measures a range of time bounded by a `from` date and `to` date. A period is a relative unit of time such as `4 weeks`.
 
