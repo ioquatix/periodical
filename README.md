@@ -1,15 +1,22 @@
-Periodical
-=========
-
-* Author: Samuel G. D. Williams (<http://www.oriontransfer.co.nz>)
-* Copyright (C) 2012 Samuel G. D. Williams.
-* Released under the MIT license.
-* [![Build Status](https://secure.travis-ci.org/ioquatix/periodical.png)](http://travis-ci.org/ioquatix/periodical)
+# Periodical
 
 Periodical is a simple framework for working with durations and periods. A duration measures a range of time bounded by a `from` date and `to` date. A period is a relative unit of time such as `4 weeks`.
 
-Basic Usage
------------
+## Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'periodical'
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install periodical
+
+## Usage
 
 The main use case for this framework involves periodic billing or accounting (e.g. calculating fortnightly rental payments).
 
@@ -22,10 +29,19 @@ The main use case for this framework involves periodic billing or accounting (e.
 	# Calculate the date which is 2 * (2 weeks)
 	next = period.advance(duration.from, 2)
 
-License
--------
+## Contributing
 
-Copyright (c) 2010, 2011 Samuel G. D. Williams. <http://www.oriontransfer.co.nz>
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+## License
+
+Released under the MIT license.
+
+Copyright, 2010, 2014, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
