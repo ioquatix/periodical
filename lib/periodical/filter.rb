@@ -42,8 +42,6 @@ module Periodical
 
 				keep = (options[:keep] == :youngest) ? KeepYoungest : KeepOldest
 
-				puts keep.inspect
-
 				values.each do |value|
 					k = key(value)
 
