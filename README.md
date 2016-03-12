@@ -2,19 +2,29 @@
 
 Periodical is a simple framework for working with durations and periods. A duration measures a range of time bounded by a `from` date and `to` date. A period is a relative unit of time such as `4 weeks`.
 
+[![Build Status](https://travis-ci.org/ioquatix/periodical.svg)](https://travis-ci.org/ioquatix/periodical)
+[![Code Climate](https://codeclimate.com/github/ioquatix/periodical.svg)](https://codeclimate.com/github/ioquatix/periodical)
+[![Coverage Status](https://coveralls.io/repos/ioquatix/periodical/badge.svg)](https://coveralls.io/r/ioquatix/periodical)
+
+## Motivation
+
+The original idea for this library came from a [Python script which performed backup rotation](http://www.scottlu.com/Content/Snapfilter.html) from 2009. In particular, I thought it had a novel way to retain backups according to a given policy (e.g. one backup every year for 10 years, one backup every month for 12 months, one backup every week for 8 weeks, one backup every day for 30 days). This is done by constructing a special slot based hash structure with keys based on the date being stored. This functionality is used by [LSync](https://github.com/ioquatix/LSync) for performing backup rotation (i.e. deleting old backups).
+
+In addition, I had a need to implement periodical billing in [Financier](https://github.com/ioquatix/financier). Not only can this gem advance a date by a given period, it can compute the number of periods between two dates. This is useful for invoicing, say, once every 6 months for a weekly or monthly service.
+
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'periodical'
+	gem 'periodical'
 
 And then execute:
 
-    $ bundle
+	$ bundle
 
 Or install it yourself as:
 
-    $ gem install periodical
+	$ gem install periodical
 
 ## Usage
 
@@ -41,7 +51,7 @@ The main use case for this framework involves periodic billing or accounting (e.
 
 Released under the MIT license.
 
-Copyright, 2010, 2014, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
+Copyright, 2010, 2014, 2016, by [Samuel G. D. Williams](http://www.codeotaku.com/samuel-williams).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
