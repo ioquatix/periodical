@@ -29,5 +29,19 @@ module Periodical::PeriodSpec
 			
 			expect(period.advance(duration.from, 12)).to be == duration.to
 		end
+		
+		it "should parse a singular period" do
+			period = Periodical::Period.parse("years")
+			
+			expect(period.count).to be == 1
+			expect(period.unit).to be == :years
+		end
+		
+		it "should parse a multiple count period" do
+			period = Periodical::Period.parse("5 days")
+			
+			expect(period.count).to be == 5
+			expect(period.unit).to be == :days
+		end
 	end
 end

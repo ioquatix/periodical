@@ -20,82 +20,73 @@
 
 module Periodical
 	class Period
-		VALID_UNITS = [:days, :weeks, :months, :years]
+		VALID_UNITS = [:days, :weeks, :months, :years].freeze
 		
-		# Accepts strings in the format of "2 weeks" or "weeks"
-		def self.parse(value)
-			if Array === value
-				parts = value
-			else
-				parts = value.to_s.split(/\s+/, 2)
-			end
-			
-			if parts.size == 1
-				if parts[0].to_i == 0
-					count = 1
-					unit = parts[0].to_sym
-				else
-					count = parts[0].to_i
-					unit = :days
-					
-					if count == 7
-						count = 1
-						unit = :weeks
-					end
-					
-					if count == 365
-						count = 1
-						unit = :years
-					end
-				end
-			else
-				count = parts[0].to_i
-				unit = parts[1].gsub(/\s+/, '_').downcase.to_sym
-			end
-			
-			unless VALID_UNITS.include? unit
-				raise ArgumentError.new("Invalid unit specified #{unit}!")
-			end
-			
-			if count == 0
-				raise ArgumentError.new("Count must be non-zero!")
-			end
-			
-			return self.new(count, unit)
-		end
-		
+		# Plural is preferred, as in "1 or more days".
 		def initialize(count = 1, unit = :days)
 			@count = count
 			@unit = unit
 		end
 		
-		def to_s
-			"#{@count} #{@unit}"
-		end
+		attr :unit
+		attr :count
 		
-		def to_formatted_s
-			if @count == 1
-				@unit.to_s.gsub(/s$/, '')
+		def to_s
+			if @count != 1
+				"#{@count} #{@unit}"
 			else
-				to_s
+				@unit
 			end
 		end
 		
 		def advance(date, multiple = 1)
-			total = multiple * @count
-			
-			if unit == :days
-				date + total
-			elsif unit == :weeks
-				date + (total * 7)
-			elsif unit == :months
-				date >> total
-			elsif unit == :years
-				date >> (total * 12)
-			end
+			self.send("advance_#{unit}", date, multiple * @count)
 		end
 		
-		attr :unit
-		attr :count
+		private
+		
+		def advance_days(date, count)
+			date + count
+		end
+		
+		def advance_weeks(date, count)
+			date + (7 * count)
+		end
+		
+		def advance_months(date, count)
+			date >> count
+		end
+		
+		def advance_years(date, count)
+			date >> (12 * count)
+		end
+		
+		class << self
+			# Accepts strings in the format of "2 weeks" or "weeks"
+			def parse(string)
+				parts = string.split(/\s+/, 2)
+				
+				if parts.size == 1
+					count = 1
+					unit = parts[0]
+				else
+					count, unit = parts
+				end
+				
+				self.new(count.to_i, unit.to_sym)
+			end
+			
+			def load(string)
+				if string
+					string = string.strip
+					
+					parse(string) unless string.empty?
+				end
+			end
+			
+			def dump(period)
+				period.to_s if period
+			end
+		end
 	end
 end
