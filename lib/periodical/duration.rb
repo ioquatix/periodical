@@ -21,17 +21,9 @@
 require 'date'
 
 module Periodical
-	class Duration
-		def initialize(from, to)
-			@from = from
-			@to = to
-		end
-		
-		attr :from
-		attr :to
-		
+	Duration = Struct.new(:from, :to) do
 		def days
-			@to - @from
+			to - from
 		end
 		
 		def weeks
@@ -39,29 +31,29 @@ module Periodical
 		end
 		
 		def whole_months
-			(@to.year * 12 + @to.month) - (@from.year * 12 + @from.month)
+			(to.year * 12 + to.month) - (from.year * 12 + from.month)
 		end
 		
 		def months
 			whole = self.whole_months
 			
-			partial_start = @from >> whole
-			partial_end = @from >> whole + 1
+			partial_start = from >> whole
+			partial_end = from >> whole + 1
 			
-			return whole + (@to - partial_start) / (partial_end - partial_start)
+			return whole + (to - partial_start) / (partial_end - partial_start)
 		end
 		
 		def whole_years
-			@to.year - @from.year
+			to.year - from.year
 		end
 		
 		def years
 			whole = self.whole_years
 			
-			partial_start = @from >> (whole * 12)
-			partial_end = @from >> ((whole + 1) * 12)
+			partial_start = from >> (whole * 12)
+			partial_end = from >> ((whole + 1) * 12)
 			
-			return whole + (@to - partial_start) / (partial_end - partial_start)
+			return whole + (to - partial_start) / (partial_end - partial_start)
 		end
 		
 		# Calculate the number of periods between from and to

@@ -43,5 +43,22 @@ module Periodical::PeriodSpec
 			expect(period.count).to be == 5
 			expect(period.unit).to be == :days
 		end
+		
+		it "can load nil" do
+			expect(Periodical::Period.load(nil)).to be == nil
+			expect(Periodical::Period.load("")).to be == nil
+		end
+		
+		it "can dump nil" do
+			expect(Periodical::Period.dump(nil)).to be == nil
+		end
+		
+		it "can load string" do
+			expect(Periodical::Period.load("5 weeks")).to be == Periodical::Period.new(5, :weeks)
+		end
+		
+		it "can dump nil" do
+			expect(Periodical::Period.dump(Periodical::Period.new(5, :weeks))).to be == "5 weeks"
+		end
 	end
 end

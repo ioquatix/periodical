@@ -19,28 +19,24 @@
 # THE SOFTWARE.
 
 module Periodical
-	class Period
+	Period = Struct.new(:count, :unit) do
 		VALID_UNITS = [:days, :weeks, :months, :years].freeze
 		
 		# Plural is preferred, as in "1 or more days".
 		def initialize(count = 1, unit = :days)
-			@count = count
-			@unit = unit
+			super(count, unit)
 		end
 		
-		attr :unit
-		attr :count
-		
 		def to_s
-			if @count != 1
-				"#{@count} #{@unit}"
+			if self.count != 1
+				"#{self.count} #{self.unit}"
 			else
-				@unit
+				self.unit.to_s
 			end
 		end
 		
 		def advance(date, multiple = 1)
-			self.send("advance_#{unit}", date, multiple * @count)
+			self.send("advance_#{unit}", date, multiple * self.count)
 		end
 		
 		private
