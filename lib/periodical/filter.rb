@@ -26,35 +26,44 @@ module Periodical
 	module Filter
 		# Keep count sorted objects per period.
 		class Period
-			KeepOldest = Proc.new do |t1, t2|
-				t1 > t2
-			end
-
-			KeepYoungest = Proc.new do |t1, t2|
-				t1 < t2
-			end
-
+			# Given times a and b, should we prefer a?
+			ORDER = {
+				# We want `a` if `a` < `b`, i.e. it's older.
+				old: ->(a, b){a < b},
+				
+				# We want `a` if `a` > `b`, i.e. it's newer.
+				new: ->(a, b){a > b}
+			}
+			
+			# @param count the number of items we should retain.
 			def initialize(count)
 				@count = count
 			end
 
-			def filter(values, options = {})
+			# @param order can be a key in ORDER or a lambda.
+			# @param block is applied to the value and should typically return a Time instance.
+			def filter(values, keep: :old, &block)
 				slots = {}
-
-				keep = (options[:keep] == :youngest) ? KeepYoungest : KeepOldest
-
+				
+				keep = ORDER.fetch(keep, keep)
+				
 				values.each do |value|
-					k = key(value)
-
-					# We want to keep the newest backup if possible (<).
-					next if slots.key?(k) and keep.call(value, slots[k])
-
-					slots[k] = value
+					time = block_given? ? yield(value) : value
+					
+					granular_key = key(time)
+					
+					# We filter out this value if the slot is already full and we prefer the existing value.
+					if existing_value = slots[granular_key]
+						existing_time = block_given? ? yield(existing_value) : existing_value
+						next if keep.call(existing_time, time)
+					end
+					
+					slots[granular_key] = value
 				end
-
+				
 				sorted_values = slots.values.sort
-
-				return sorted_values[0...@count]
+				
+				return sorted_values.first(@count)
 			end
 
 			def key(t)
@@ -113,11 +122,11 @@ module Periodical
 				@periods[period.class] = period
 			end
 
-			def filter(values, options = {})
+			def filter(values, **options, &block)
 				filtered_values = Set.new
 			
 				@periods.values.each do |period|
-					filtered_values += period.filter(values, options)
+					filtered_values += period.filter(values, **options, &block)
 				end
 
 				return filtered_values, (Set.new(values) - filtered_values)

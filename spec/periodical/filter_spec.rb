@@ -36,11 +36,9 @@ module Periodical::PeriodSpec
 			policy << Periodical::Filter::Daily.new(3)
 			
 			selected, rejected = policy.filter(dates)
-			expect(selected.count).to be 3
-			expect(rejected.count).to be 3
 			
-			# Keep oldest is the default policy
-			expect(selected).to be_include(dates[0])
+			expect(selected).to include(*dates.first(3))
+			expect(rejected).to include(*dates.last(3))
 		end
 		
 		it "should keep youngest" do
@@ -52,7 +50,7 @@ module Periodical::PeriodSpec
 			policy = Periodical::Filter::Policy.new
 			policy << Periodical::Filter::Monthly.new(1)
 			
-			selected, rejected = policy.filter(dates, :keep => :youngest)
+			selected, rejected = policy.filter(dates, :keep => :new)
 			expect(selected.count).to be 1
 			expect(rejected.count).to be 1
 			
