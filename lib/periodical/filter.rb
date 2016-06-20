@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 require 'date'
+require 'set'
 
 module Periodical
 	# A filter module for backup rotation like behaviour, e.g. keep every hour for 24 hours, every day for 30 days, etc.
