@@ -36,6 +36,8 @@ module Periodical
 		end
 		
 		def advance(date, multiple = 1)
+			raise TypeError unless date.is_a?(Date)
+			
 			self.send("advance_#{unit}", date, multiple * self.count)
 		end
 		
@@ -46,7 +48,7 @@ module Periodical
 		end
 		
 		def advance_weeks(date, count)
-			date + (7 * count)
+			advance_days(date, count*7)
 		end
 		
 		def advance_months(date, count)
@@ -54,7 +56,7 @@ module Periodical
 		end
 		
 		def advance_years(date, count)
-			date >> (12 * count)
+			advance_months(date, count*12)
 		end
 		
 		class << self

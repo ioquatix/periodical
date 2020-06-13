@@ -1,0 +1,8 @@
+/.bundle/
+/gems.locked
+/pkg/
+/tmp/
+
+# rspec failure tracking
+.rspec_status
+

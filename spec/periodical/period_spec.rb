@@ -20,45 +20,43 @@
 
 require 'periodical'
 
-module Periodical::PeriodSpec
-	describe Periodical::Period do
-		it "should advance by 1 month" do
-			duration = Periodical::Duration.new(Date.parse("2010-01-01"), Date.parse("2011-01-01"))
-			
-			period = Periodical::Period.new(1, :months)
-			
-			expect(period.advance(duration.from, 12)).to be == duration.to
-		end
+RSpec.describe Periodical::Period do
+	it "should advance by 1 month" do
+		duration = Periodical::Duration.new(Date.parse("2010-01-01"), Date.parse("2011-01-01"))
 		
-		it "should parse a singular period" do
-			period = Periodical::Period.parse("years")
-			
-			expect(period.count).to be == 1
-			expect(period.unit).to be == :years
-		end
+		period = Periodical::Period.new(1, :months)
 		
-		it "should parse a multiple count period" do
-			period = Periodical::Period.parse("5 days")
-			
-			expect(period.count).to be == 5
-			expect(period.unit).to be == :days
-		end
+		expect(period.advance(duration.from, 12)).to be == duration.to
+	end
+	
+	it "should parse a singular period" do
+		period = Periodical::Period.parse("years")
 		
-		it "can load nil" do
-			expect(Periodical::Period.load(nil)).to be == nil
-			expect(Periodical::Period.load("")).to be == nil
-		end
+		expect(period.count).to be == 1
+		expect(period.unit).to be == :years
+	end
+	
+	it "should parse a multiple count period" do
+		period = Periodical::Period.parse("5 days")
 		
-		it "can dump nil" do
-			expect(Periodical::Period.dump(nil)).to be == nil
-		end
-		
-		it "can load string" do
-			expect(Periodical::Period.load("5 weeks")).to be == Periodical::Period.new(5, :weeks)
-		end
-		
-		it "can dump nil" do
-			expect(Periodical::Period.dump(Periodical::Period.new(5, :weeks))).to be == "5 weeks"
-		end
+		expect(period.count).to be == 5
+		expect(period.unit).to be == :days
+	end
+	
+	it "can load nil" do
+		expect(Periodical::Period.load(nil)).to be == nil
+		expect(Periodical::Period.load("")).to be == nil
+	end
+	
+	it "can dump nil" do
+		expect(Periodical::Period.dump(nil)).to be == nil
+	end
+	
+	it "can load string" do
+		expect(Periodical::Period.load("5 weeks")).to be == Periodical::Period.new(5, :weeks)
+	end
+	
+	it "can dump nil" do
+		expect(Periodical::Period.dump(Periodical::Period.new(5, :weeks))).to be == "5 weeks"
 	end
 end

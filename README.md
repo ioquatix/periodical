@@ -2,9 +2,7 @@
 
 Periodical is a simple framework for working with durations and periods. A duration measures a range of time bounded by a `from` date and `to` date. A period is a relative unit of time such as `4 weeks`.
 
-[![Build Status](https://travis-ci.org/ioquatix/periodical.svg)](https://travis-ci.org/ioquatix/periodical)
-[![Code Climate](https://codeclimate.com/github/ioquatix/periodical.svg)](https://codeclimate.com/github/ioquatix/periodical)
-[![Coverage Status](https://coveralls.io/repos/ioquatix/periodical/badge.svg)](https://coveralls.io/r/ioquatix/periodical)
+[![Development Status](https://github.com/ioquatix/periodical/workflows/Development/badge.svg)](https://github.com/ioquatix/periodical/actions?workflow=Development)
 
 ## Motivation
 
@@ -16,36 +14,32 @@ In addition, I had a need to implement periodical billing in [Financier](https:/
 
 Add this line to your application's Gemfile:
 
-	gem 'periodical'
-
-And then execute:
-
-	$ bundle
-
-Or install it yourself as:
-
-	$ gem install periodical
+``` shell
+$ bundle add periodical
+```
 
 ## Usage
 
 The main use case for this framework involves periodic billing or accounting (e.g. calculating fortnightly rental payments).
 
-	duration = Periodical::Duration.new(Date.parse("2010-01-01"), Date.parse("2010-02-01"))
-	period = Periodical::Period.new(2, :weeks)
-	
-	# How many periods in the duration?
-	count = duration / period
-	
-	# Calculate the date which is 2 * (2 weeks)
-	next = period.advance(duration.from, 2)
+``` ruby
+duration = Periodical::Duration.new(Date.parse("2010-01-01"), Date.parse("2010-02-01"))
+period = Periodical::Period.new(2, :weeks)
+
+# How many periods in the duration?
+count = duration / period
+
+# Calculate the date which is 2 * (2 weeks)
+next = period.advance(duration.from, 2)
+```
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+1.  Fork it
+2.  Create your feature branch (`git checkout -b my-new-feature`)
+3.  Commit your changes (`git commit -am 'Add some feature'`)
+4.  Push to the branch (`git push origin my-new-feature`)
+5.  Create new Pull Request
 
 ## License
 

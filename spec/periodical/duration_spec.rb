@@ -20,31 +20,29 @@
 
 require 'periodical'
 
-module Periodical::DurationSpec
-	describe Periodical::Duration do
-		it "should measure durations correctly" do
-			duration = Periodical::Duration.new(Date.parse("2010-01-01"), Date.parse("2010-02-01"))
-			expect(duration.days).to be == 31
-			expect(duration.weeks).to be == Rational(31, 7)
-			expect(duration.months).to be == 1
-			expect(duration.years).to be == Rational(31, 365)
+RSpec.describe Periodical::Duration do
+	it "should measure durations correctly" do
+		duration = Periodical::Duration.new(Date.parse("2010-01-01"), Date.parse("2010-02-01"))
+		expect(duration.days).to be == 31
+		expect(duration.weeks).to be == Rational(31, 7)
+		expect(duration.months).to be == 1
+		expect(duration.years).to be == Rational(31, 365)
 		
-			expect(duration.whole_months).to be == 1
-			expect(duration.whole_years).to be == 0
-		end
+		expect(duration.whole_months).to be == 1
+		expect(duration.whole_years).to be == 0
+	end
 	
-		it "should compute the correct number of weeks" do
-			duration = Periodical::Duration.new(Date.parse("2010-01-01"), Date.parse("2010-02-01"))
-			period = Periodical::Period.new(2, :weeks)
+	it "should compute the correct number of weeks" do
+		duration = Periodical::Duration.new(Date.parse("2010-01-01"), Date.parse("2010-02-01"))
+		period = Periodical::Period.new(2, :weeks)
 		
-			expect(duration / period).to be == Rational(31, 14)
-		end
+		expect(duration / period).to be == Rational(31, 14)
+	end
+	
+	it "should compute the correct number of months" do
+		duration = Periodical::Duration.new(Date.parse("2010-01-01"), Date.parse("2011-03-01"))
+		period = Periodical::Period.new(2, :months)
 		
-		it "should compute the correct number of months" do
-			duration = Periodical::Duration.new(Date.parse("2010-01-01"), Date.parse("2011-03-01"))
-			period = Periodical::Period.new(2, :months)
-		
-			expect(duration / period).to be == Rational(14, 2)
-		end
+		expect(duration / period).to be == Rational(14, 2)
 	end
 end

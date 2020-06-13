@@ -1,4 +1,4 @@
-# Copyright, 2012, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2020, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,42 +18,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'periodical/filter'
+require "bundler/setup"
 
-RSpec.describe Periodical::Filter do
-	it "should select at most 3 days worth of data" do
-		dates = [
-			Date.parse("2010-01-01"),
-			Date.parse("2010-01-02"),
-			Date.parse("2010-01-03"),
-			Date.parse("2010-01-04"),
-			Date.parse("2010-01-05"),
-			Date.parse("2010-01-06"),
-		]
-		
-		policy = Periodical::Filter::Policy.new
-		policy << Periodical::Filter::Daily.new(3)
-		
-		selected, rejected = policy.filter(dates)
-		
-		expect(selected).to include(*dates.first(3))
-		expect(rejected).to include(*dates.last(3))
-	end
+RSpec.configure do |config|
+	# Enable flags like --only-failures and --next-failure
+	config.example_status_persistence_file_path = ".rspec_status"
 	
-	it "should keep youngest" do
-		dates = [
-			Date.parse("2010-01-01"),
-			Date.parse("2010-01-02"),
-		]
-		
-		policy = Periodical::Filter::Policy.new
-		policy << Periodical::Filter::Monthly.new(1)
-		
-		selected, rejected = policy.filter(dates, :keep => :new)
-		expect(selected.count).to be 1
-		expect(rejected.count).to be 1
-		
-		# Keep oldest is the default policy
-		expect(selected).to be_include(dates[1])
+	# Disable RSpec exposing methods globally on `Module` and `main`
+	config.disable_monkey_patching!
+	
+	config.expect_with :rspec do |c|
+		c.syntax = :expect
 	end
 end

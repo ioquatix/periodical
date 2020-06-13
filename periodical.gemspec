@@ -1,24 +1,25 @@
-# -*- encoding: utf-8 -*-
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'periodical/version'
+
+require_relative "lib/periodical/version"
 
 Gem::Specification.new do |spec|
-	spec.name          = "periodical"
-	spec.version       = Periodical::VERSION
-	spec.authors       = ["Samuel Williams"]
-	spec.email         = ["samuel.williams@oriontransfer.co.nz"]
-	spec.summary       = %q{Periodical is a simple framework for working with durations and periods.}
-	spec.license       = "MIT"
-
-	spec.files         = `git ls-files`.split($/)
-	spec.executables   = spec.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-	spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-	spec.require_paths = ["lib"]
+	spec.name = "periodical"
+	spec.version = Periodical::VERSION
 	
-	spec.required_ruby_version = '>= 2.0'
+	spec.summary = "Periodical is a simple framework for working with durations and periods."
+	spec.authors = ["Samuel Williams"]
+	spec.license = "MIT"
 	
-	spec.add_development_dependency "bundler", "~> 1.3"
+	spec.homepage = "https://github.com/ioquatix/periodical"
+	
+	spec.metadata = {
+		"funding_uri" => "https://github.com/sponsors/ioquatix/",
+	}
+	
+	spec.files = Dir.glob('{lib}/**/*', File::FNM_DOTMATCH, base: __dir__)
+	
+	spec.required_ruby_version = ">= 2.0"
+	
+	spec.add_development_dependency "bake-bundler"
+	spec.add_development_dependency "bake-modernize"
 	spec.add_development_dependency "rspec", "~> 3.4.0"
-	spec.add_development_dependency "rake"
 end
