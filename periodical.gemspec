@@ -21,5 +21,4 @@ Gem::Specification.new do |spec|
 	
 	spec.add_development_dependency "bake-bundler"
 	spec.add_development_dependency "bake-modernize"
-	spec.add_development_dependency "rspec", "~> 3.4.0"
 end
